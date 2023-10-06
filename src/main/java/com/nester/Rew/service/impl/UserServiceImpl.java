@@ -7,22 +7,33 @@ import com.nester.Rew.service.dto.user.UserDto;
 import com.nester.Rew.service.dto.user.UserDtoForSave;
 import com.nester.Rew.service.dto.user.UserDtoForUpdate;
 import com.nester.Rew.service.exception.NotFoundException;
+import com.nester.Rew.service.exception.RewException;
 import com.nester.Rew.service.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private static final String USER_NOT_FOUND_MSG = "User not found";
+    private static final String EMAIL_ALREADY_EXISTS_MSG = "Email %s already exists in the database";
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
     @Override
     public UserDto create(UserDtoForSave dto) {
-        return null;
+        Optional<User> existing = userRepository.findByEmail(dto.getEmail());
+        if (existing.isPresent()) {
+            throw new RewException(String.format(EMAIL_ALREADY_EXISTS_MSG, dto.getEmail()));
+        }
+        User entity = userMapper.userDtoForSavingToUser(dto);
+        entity.setRole(User.Role.USER);
+        User created = userRepository.save(entity);
+        return userMapper.userToUserDto(created);
     }
 
     @Override
@@ -40,17 +51,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getByEmail(String email) {
-        return null;
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND_MSG));
+        return userMapper.userToUserDto(user);
     }
 
     @Override
     public UserDto update(UserDtoForUpdate dto) {
-        return null;
+        Optional<User> existing = userRepository.findByEmail(dto.getEmail());
+        if (existing.isPresent() && !existing.get().getId().equals(dto.getId())) {
+            throw new RewException(String.format(EMAIL_ALREADY_EXISTS_MSG, dto.getEmail()));
+        }
+        User oldUser = userRepository.findById(dto.getId())
+                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND_MSG));
+        User newUser = userMapper.userDtoForUpdatingToUser(dto);
+        User updated = userRepository.save(newUser);
+        return userMapper.userToUserDto(updated);
     }
 
     @Override
     public void delete(Long id) {
-
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND_MSG));
+        userRepository.deleteById(id);
     }
 
     @Override
