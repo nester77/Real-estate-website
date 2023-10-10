@@ -12,17 +12,22 @@ import com.nester.Rew.service.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
     private static final String USER_NOT_FOUND_MSG = "User not found";
     private static final String EMAIL_ALREADY_EXISTS_MSG = "Email %s already exists in the database";
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDto create(UserDtoForSave dto) {
@@ -31,6 +36,8 @@ public class UserServiceImpl implements UserService {
             throw new RewException(String.format(EMAIL_ALREADY_EXISTS_MSG, dto.getEmail()));
         }
         User entity = userMapper.userDtoForSavingToUser(dto);
+        String encodedPassword = passwordEncoder.encode(dto.getPassword());
+        entity.setPassword(encodedPassword);
         entity.setRole(User.Role.USER);
         User created = userRepository.save(entity);
         return userMapper.userToUserDto(created);
@@ -79,5 +86,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerUser(UserDtoForSave dto) {
 
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return new UserAppDetails(userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND_MSG)));
     }
 }

@@ -1,6 +1,6 @@
 package com.nester.Rew.service.dto.apartment;
 
-import com.nester.Rew.data.entity.User;
+import com.nester.Rew.service.dto.user.UserDto;
 import lombok.Data;
 
 @Data
@@ -11,5 +11,5 @@ public class ApartmentDtoForSave {
     private String description;
     private int price;
     private String address;
-    private User owner;
+    private UserDto owner;
 }
