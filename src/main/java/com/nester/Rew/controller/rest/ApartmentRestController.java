@@ -4,6 +4,7 @@ import com.nester.Rew.service.ApartmentService;
 import com.nester.Rew.service.dto.apartment.ApartmentDto;
 import com.nester.Rew.service.dto.apartment.ApartmentDtoForSave;
 import com.nester.Rew.service.dto.apartment.ApartmentDtoForUpdate;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +28,7 @@ public class ApartmentRestController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ApartmentDto create(@RequestBody ApartmentDtoForSave dto) {
+    public ApartmentDto create(@RequestBody @Valid ApartmentDtoForSave dto) {
         return apartmentService.create(dto);
     }
 
@@ -42,13 +43,13 @@ public class ApartmentRestController {
     }
 
     @PutMapping("/{id}")
-    public ApartmentDto update(@PathVariable Long id, @RequestBody ApartmentDtoForUpdate dto) {
+    public ApartmentDto update(@PathVariable Long id, @RequestBody @Valid ApartmentDtoForUpdate dto) {
         dto.setId(id);
         return apartmentService.update(dto);
     }
 
     @PatchMapping("/{id}")
-    public ApartmentDto updatePartly(@PathVariable Long id, @RequestBody ApartmentDtoForUpdate dto) {
+    public ApartmentDto updatePartly(@PathVariable Long id, @RequestBody @Valid ApartmentDtoForUpdate dto) {
         dto.setId(id);
         return apartmentService.update(dto);
     }

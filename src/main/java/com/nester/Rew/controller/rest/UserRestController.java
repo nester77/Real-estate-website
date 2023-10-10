@@ -4,6 +4,7 @@ import com.nester.Rew.service.UserService;
 import com.nester.Rew.service.dto.user.UserDto;
 import com.nester.Rew.service.dto.user.UserDtoForSave;
 import com.nester.Rew.service.dto.user.UserDtoForUpdate;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +28,7 @@ public class UserRestController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDto create(@RequestBody UserDtoForSave dto) {
+    public UserDto create(@RequestBody @Valid UserDtoForSave dto) {
         return userService.create(dto);
     }
 
@@ -42,13 +43,13 @@ public class UserRestController {
     }
 
     @PutMapping("/{id}")
-    public UserDto update(@PathVariable Long id, @RequestBody UserDtoForUpdate dto) {
+    public UserDto update(@PathVariable Long id, @RequestBody @Valid UserDtoForUpdate dto) {
         dto.setId(id);
         return userService.update(dto);
     }
 
     @PatchMapping("/{id}")
-    public UserDto updatePartly(@PathVariable Long id, @RequestBody UserDtoForUpdate dto) {
+    public UserDto updatePartly(@PathVariable Long id, @RequestBody @Valid UserDtoForUpdate dto) {
         dto.setId(id);
         return userService.update(dto);
     }
