@@ -1,7 +1,9 @@
 package com.nester.Rew.service.impl;
 
 import com.nester.Rew.data.entity.Apartment;
+import com.nester.Rew.data.entity.User;
 import com.nester.Rew.data.repository.ApartmentRepository;
+import com.nester.Rew.data.repository.UserRepository;
 import com.nester.Rew.service.ApartmentService;
 import com.nester.Rew.service.dto.apartment.ApartmentDto;
 import com.nester.Rew.service.dto.apartment.ApartmentDtoForSave;
@@ -17,12 +19,18 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ApartmentServiceImpl implements ApartmentService {
     private static final String APARTMENT_NOT_FOUND_MSG = "Apartment not found";
+    private static final String USER_NOT_FOUND_MSG = "User not found";
     private final ApartmentRepository apartmentRepository;
+    private final UserRepository userRepository;
     private final ApartmentMapper apartmentMapper;
 
     @Override
     public ApartmentDto create(ApartmentDtoForSave dto) {
+        String email = dto.getOwner().getEmail();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND_MSG));
         Apartment entity = apartmentMapper.apartmentDtoForSavingToApartment(dto);
+        entity.setOwner(user);
         entity.setActive(true);
         Apartment created = apartmentRepository.save(entity);
         return apartmentMapper.apartmentToApartmentDto(created);
