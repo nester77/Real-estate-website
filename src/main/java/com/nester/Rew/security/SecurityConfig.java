@@ -17,8 +17,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/admins/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers("/admins/**").hasAuthority("ADMIN")
                         .requestMatchers("/users/**").authenticated()
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/apartments/create/**", "/apartments/update/**").authenticated()
+                        .requestMatchers("/apartments/**").permitAll()
                         .requestMatchers("/", "/api/v1.0/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> {})

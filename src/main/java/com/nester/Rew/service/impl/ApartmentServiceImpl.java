@@ -15,6 +15,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class ApartmentServiceImpl implements ApartmentService {
@@ -40,6 +43,12 @@ public class ApartmentServiceImpl implements ApartmentService {
     public Page<ApartmentDto> getAll(Pageable pageable) {
         Page<Apartment> apartments = apartmentRepository.findAll(pageable);
         return apartments.map(apartmentMapper::apartmentToApartmentDto);
+    }
+
+    @Override
+    public List<ApartmentDto> getAllByUser(String email) {
+        List<Apartment> apartments = apartmentRepository.findAllByUser(email);
+        return apartments.stream().map(apartmentMapper::apartmentToApartmentDto).collect(Collectors.toList());
     }
 
     @Override
