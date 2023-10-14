@@ -39,6 +39,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
         entity.setPassword(encodedPassword);
         entity.setRole(User.Role.USER);
+        entity.setActive(true);
         User created = userRepository.save(entity);
         return userMapper.userToUserDto(created);
     }
@@ -80,13 +81,27 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void delete(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND_MSG));
-        userRepository.deleteById(id);
+        user.setActive(false);
+        userRepository.save(user);
     }
 
     @Override
     public void registerUser(UserDtoForSave dto) {
-
+        Optional<User> existing = userRepository.findByEmail(dto.getEmail());
+        if (existing.isPresent()) {
+            throw new RewException(String.format(EMAIL_ALREADY_EXISTS_MSG, dto.getEmail()));
+        }
+        User entity = userMapper.userDtoForSavingToUser(dto);
+        String encodedPassword = passwordEncoder.encode(dto.getPassword());
+        entity.setEmail(dto.getEmail().trim());
+        entity.setPassword(encodedPassword);
+        if (entity.getRole() == null) {
+            entity.setRole(User.Role.USER);
+        }
+        entity.setActive(false);
+        User created = userRepository.save(entity);
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

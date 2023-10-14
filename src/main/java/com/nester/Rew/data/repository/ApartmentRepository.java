@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
-    @Query(value = "SELECT a FROM apartments a WHERE a.user.email = :email", nativeQuery = true)
-    List<Apartment> findAllByUser(@Param("email") String email);
+    @Query(value = "SELECT * FROM apartments a WHERE a.owner_id = :id", nativeQuery = true)
+    List<Apartment> findAllByUser(@Param("id") Long id);
 }

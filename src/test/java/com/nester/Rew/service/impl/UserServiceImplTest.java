@@ -82,14 +82,14 @@ class UserServiceImplTest {
     void deleteExistingTest() {
         when(userRepositoryMock.findById(ID_EXISTING)).thenReturn(Optional.of(existing));
         userService.delete(ID_EXISTING);
-        verify(userRepositoryMock, times(1)).deleteById(ID_EXISTING);
+        verify(userRepositoryMock, times(1)).save(Mockito.any());
     }
 
     @Test
     void deleteNotExistingTest() {
         when(userRepositoryMock.findById(ID_NOT_EXISTING)).thenReturn(Optional.empty());
         assertThrows(NotFoundException.class, () -> userService.delete(ID_NOT_EXISTING));
-        verify(userRepositoryMock, times(0)).deleteById(Mockito.any());
+        verify(userRepositoryMock, times(0)).save(Mockito.any());
     }
 
     private User initUser(long id,

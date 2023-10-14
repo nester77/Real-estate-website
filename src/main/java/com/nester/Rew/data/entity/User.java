@@ -39,9 +39,15 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "phone")
+    private String phone;
+
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column(name = "is_active")
+    private boolean isActive;
 
     public enum Role {
         USER,ADMIN

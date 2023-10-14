@@ -2,10 +2,12 @@ CREATE TABLE IF NOT EXISTS users
 (
     id                  BIGSERIAL PRIMARY KEY  NOT NULL,
     email               CHARACTER VARYING(100) NOT NULL,
-    password            CHARACTER VARYING(100)  NOT NULL,
+    password            CHARACTER VARYING(100) NOT NULL,
     first_name          CHARACTER VARYING(100) NOT NULL,
     last_name           CHARACTER VARYING(100) NOT NULL,
-    role                CHARACTER VARYING(50)  NOT NULL
+    phone               CHARACTER VARYING(20)  NOT NULL,
+    role                CHARACTER VARYING(50)  NOT NULL,
+    is_active           BOOLEAN                NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE IF NOT EXISTS apartments

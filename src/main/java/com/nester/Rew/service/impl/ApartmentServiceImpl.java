@@ -47,7 +47,10 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     @Override
     public List<ApartmentDto> getAllByUser(String email) {
-        List<Apartment> apartments = apartmentRepository.findAllByUser(email);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND_MSG));
+        long a = user.getId();
+        List<Apartment> apartments = apartmentRepository.findAllByUser(a);
         return apartments.stream().map(apartmentMapper::apartmentToApartmentDto).collect(Collectors.toList());
     }
 

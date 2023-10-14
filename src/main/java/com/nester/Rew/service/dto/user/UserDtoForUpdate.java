@@ -27,5 +27,10 @@ public class UserDtoForUpdate {
     @Size(min = 2, max = 30, message = "Last name should be between 2 and 30 symbols")
     private String lastName;
 
+    @NotEmpty(message = "Phone should be empty")
+    private String phone;
+
     private RoleDto role;
+
+    private boolean isActive;
 }
