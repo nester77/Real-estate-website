@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+
+<head>
+    <meta charset="UTF-8">
+    <title>REW</title>
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/fontawesome/icons.css" rel="stylesheet">
+</head>
+<body>
+<nav th:replace="~{plugins/menu :: menu}"></nav>
+
+<div class="main">
+    <div class="left-side-area">
+        <h1 class="header">Home Page</h1>
+        <h1 class="subheader">Real estate website</h1>
+        <a sec:authorize="isAnonymous()" href="/apartments" class="button-active">To buy an apartment</a>
+        <a sec:authorize="hasAuthority('USER')" href="/apartments" class="button-active">To buy an apartment</a>
+        <a sec:authorize="hasAuthority('ADMIN')" href="/admins/apartments" class="button-active">To buy an apartment</a>
+        <a href="/users/personal" class="button-active">Sell an apartment</a>
+    </div>
+    <div class="main-area">
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<nav th:fragment="menu" class="menu">
+    <nav class="menu-left">
+        <img class="logo" href="/home" th:src="@{/images/logo.jpg}" alt="logo">
+        <p><a class="text" href="/home">Home</a></p>
+        <p sec:authorize="hasAuthority('ADMIN')"><a class="text" href="/admins/users">Users</a></p>
+        <p sec:authorize="isAnonymous()"><a class="text" href="/apartments">Apartments</a></p>
+        <p sec:authorize="hasAuthority('USER')"><a class="text" href="/apartments">Apartments</a></p>
+        <p sec:authorize="hasAuthority('ADMIN')"><a class="text" href="/admins/apartments">Apartments</a></p>
+        <p sec:authorize="hasAnyAuthority('USER', 'ADMIN')"><a class="text" href="/apartments/personal">My
+            apartments</a></p>
+        <p sec:authorize="hasAnyAuthority('USER', 'ADMIN')"><a class="text"
+                                                               th:href="@{/users/personal}">
+            Personal page</a></p>
+    </nav>
+    <nav class="menu-right">
+        <p sec:authorize="isAnonymous()"><a class="text" href="/login">Sign In</a></p>
+        <p sec:authorize="isAnonymous()"><a class="text" href="/users/create">Sign Up</a></p>
+        <p sec:authorize="isAuthenticated()"><a class="text" href="/logout">Log Out</a></p>
+    </nav>
+</nav>

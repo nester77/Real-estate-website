@@ -4,6 +4,7 @@ import com.nester.Rew.service.ApartmentService;
 import com.nester.Rew.service.UserService;
 import com.nester.Rew.service.dto.apartment.ApartmentDto;
 import com.nester.Rew.service.dto.user.UserDto;
+import com.nester.Rew.service.dto.user.UserDtoForSave;
 import com.nester.Rew.service.dto.user.UserDtoForUpdate;
 import com.nester.Rew.service.impl.UserAppDetails;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +22,19 @@ import java.util.List;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserWebController {
-    public static final int SIZE_PAGE = 10;
-    public static final String SORT_PAGE = "id";
     private final UserService userService;
     private final ApartmentService apartmentService;
+
+    @GetMapping("/create")
+    public String createForm() {
+        return "registration";
+    }
+
+    @PostMapping("/create")
+    public String create(@ModelAttribute("user") UserDtoForSave dto) {
+        UserDto created = userService.create(dto);
+        return "login";
+    }
 
     @GetMapping("/personal")
     public String getPersonalPage(Model model) {
@@ -35,7 +45,7 @@ public class UserWebController {
         model.addAttribute("user", user);
         List<ApartmentDto> apartments = apartmentService.getAllByUser(email);
         model.addAttribute("apartments", apartments);
-        return "personal_page";
+        return "user/personal_page";
     }
 
     @GetMapping("/update")
@@ -45,7 +55,7 @@ public class UserWebController {
         String email = userAppDetails.getUsername();
         UserDto toUpdate = userService.getByEmail(email);
         model.addAttribute("user", toUpdate);
-        return "update_user";
+        return "user/update_user";
     }
 
     @PostMapping("/update")
@@ -56,7 +66,7 @@ public class UserWebController {
         UserDto toUpdate = userService.getByEmail(email);
         dto.setId(toUpdate.getId());
         userService.update(dto);
-        return "personal_page";
+        return "home";
     }
 
     @GetMapping("/delete")
@@ -68,6 +78,6 @@ public class UserWebController {
         if (!apartments.isEmpty()) return "info";
         UserDto toDelete = userService.getByEmail(email);
         userService.delete(toDelete.getId());
-        return "apartments";
+        return "home";
     }
 }

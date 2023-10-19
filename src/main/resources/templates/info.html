@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Info</title>
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/fontawesome/icons.css" rel="stylesheet">
+</head>
+<body>
+<nav th:replace="~{plugins/menu :: menu}"></nav>
+
+<div class="main">
+    <div class="left-side-area">
+        <h1 class="header">Info</h1>
+        <h1 class="subheader">Something went wrong...</h1>
+
+    </div>
+    <div class="main-area">
+        <h1 class="subheader">Sorry, but...</h1>
+        <h1 class="subheader">Before deleting your account, you must delete your notices.</h1>
+        <a href="/home" class="button-active">Continue</a>
+    </div>
+</div>
+</body>
+</html>

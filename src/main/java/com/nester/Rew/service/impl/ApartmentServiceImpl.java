@@ -55,6 +55,12 @@ public class ApartmentServiceImpl implements ApartmentService {
     }
 
     @Override
+    public Page<ApartmentDto> getAllActive(Pageable pageable) {
+        Page<Apartment> apartments = apartmentRepository.findAllActive(pageable);
+        return apartments.map(apartmentMapper::apartmentToApartmentDto);
+    }
+
+    @Override
     public ApartmentDto getById(Long id) {
         Apartment apartment = apartmentRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(APARTMENT_NOT_FOUND_MSG));
@@ -65,7 +71,15 @@ public class ApartmentServiceImpl implements ApartmentService {
     public ApartmentDto update(ApartmentDtoForUpdate dto) {
         Apartment oldApartment = apartmentRepository.findById(dto.getId())
                 .orElseThrow(() -> new NotFoundException(APARTMENT_NOT_FOUND_MSG));
+        String email = dto.getOwner().getEmail();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND_MSG));
         Apartment newApartment = apartmentMapper.apartmentDtoForUpdatingToApartment(dto);
+        newApartment.setOwner(user);
+        newApartment.setActive(oldApartment.isActive());
+        if (newApartment.getDescription().isEmpty()) {
+            newApartment.setDescription(oldApartment.getDescription());
+        }
         Apartment updated = apartmentRepository.save(newApartment);
         return apartmentMapper.apartmentToApartmentDto(updated);
     }

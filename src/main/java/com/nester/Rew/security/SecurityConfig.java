@@ -18,14 +18,12 @@ public class SecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers("/admins/**").hasAuthority("ADMIN")
-                        .requestMatchers("/users/**").authenticated()
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/apartments/create/**", "/apartments/update/**").authenticated()
-                        .requestMatchers("/apartments/**").permitAll()
-                        .requestMatchers("/", "/api/v1.0/**").permitAll()
+                        .requestMatchers("/users/personal", "/users/update", "/users/delete").authenticated()
+                        .requestMatchers("/apartments/create/**", "/apartments/update/**", "/apartments/personal").authenticated()
+                        .requestMatchers("/**", "/api/v1.0/**").permitAll()
                         .anyRequest().authenticated())
-                .formLogin(formLogin -> {})
-                .logout(logout -> {})
+                .formLogin(formLogin -> formLogin.loginPage("/login").permitAll().defaultSuccessUrl("/home"))
+                .logout(logout -> logout.logoutSuccessUrl("/home"))
                 .build();
     }
 

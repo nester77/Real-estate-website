@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Personal page</title>
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/fontawesome/icons.css" rel="stylesheet">
+</head>
+<body>
+<nav th:replace="~{plugins/menu::menu}"></nav>
+<div class="main">
+    <div class="left-side-area">
+        <h1 class="header" th:text="'Hello, ' + ${user.firstName}"></h1>
+        <h2 class="subheader">Personal profile</h2>
+        <a th:href="'/apartments/create'"
+           class="button-active">Create a notice</a>
+        <a th:href="'/users/update'"
+           class="button-active">Edit profile</a>
+        <a th:href="'/users/delete'"
+           class="button-active-delete">Delete account</a>
+    </div>
+    <div class="main-area">
+        <table>
+            <tr>
+                <td class="text-left-column">Email</td>
+                <td><input type="text" th:value=${user.email} disabled></td>
+            </tr>
+            <tr>
+                <td class="text-left-column">First name</td>
+                <td><input type="text" th:value=${user.firstName} disabled></td>
+            </tr>
+            <tr>
+                <td class="text-left-column">Last name</td>
+                <td><input type="text" th:value=${user.lastName} disabled></td>
+            </tr>
+            <tr>
+                <td class="text-left-column">Phone</td>
+                <td><input type="text" th:value=${user.phone} disabled></td>
+            </tr>
+        </table>
+        <h2 th:if="${apartments.empty}" class="subheader">No your active notices</h2>
+        <h2 th:unless="${apartments.empty}" class="subheader">Your active notices</h2>
+        <table th:unless="${apartments.empty}" class="table">
+            <thead>
+            <tr class="table-header">
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>Square</th>
+                <th>Rooms</th>
+                <th>Floor</th>
+                <th>Price</th>
+                <th>Address</th>
+                <th>Is active</th>
+            </tr>
+            </thead>
+            <tbody>
+            <div th:each="el: ${apartments}">
+                <tr class="table-data">
+                    <td>
+                        <a th:href="'/apartments/' + ${el.id}">
+                            <i class="fa-solid fa-eye" title="View"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a th:if="${el.isActive == true}" th:href="'/apartments/update/' + ${el.id}">
+                            <i class="fa-solid fa-file-pen" title="Edit"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a th:if="${el.isActive == true}" th:href="'/apartments/delete/' + ${el.id}">
+                            <i class="fa-solid fa-trash-can" title="Delete"></i>
+                        </a>
+                    </td>
+                    <td><p th:text="${el.square}"></p></td>
+                    <td><p th:text="${el.numberOfRooms}"></p></td>
+                    <td><p th:text="${el.floor}"></p></td>
+                    <td><p th:text="${el.price}"></p></td>
+                    <td><p th:text="${el.address}"></p></td>
+                    <td><p th:text="${el.isActive}"></p></td>
+                </tr>
+
+            </div>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

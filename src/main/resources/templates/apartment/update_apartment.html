@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Apartment</title>
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/fontawesome/icons.css" rel="stylesheet">
+</head>
+<body>
+<nav th:replace="~{plugins/menu :: menu}"></nav>
+<div class="main">
+    <div class="left-side-area">
+        <h1 class="header">Edit Notice</h1>
+        <h2 class="subheader">Changing notice information</h2>
+    </div>
+    <div class="main-area">
+        <form sec:authorize="hasAnyAuthority('USER')" th:action="'/apartments/update/' +  ${apartment.id}"
+              method="post">
+            <table>
+                <input type="hidden" th:value="${apartment.isActive}" name="isActive">
+                <tr>
+                    <td class="text" align="right" wight="20%">Address</td>
+                    <td><input type="text" th:value=${apartment.address} name="address"></td>
+                </tr>
+                <tr>
+                    <td class="text" align="right">Square</td>
+                    <td><input type="text" th:value=${apartment.square} name="square"></td>
+                </tr>
+
+                <tr>
+                    <td class="text" align="right">Number of rooms</td>
+                    <td><input type="text" th:value=${apartment.numberOfRooms} name="numberOfRooms"></td>
+                </tr>
+                <tr>
+                    <td class="text" align="right">Price</td>
+                    <td><input type="text" th:value=${apartment.price} name="price"></td>
+                </tr>
+                <tr>
+                    <td class="text" align="right">Floor</td>
+                    <td><input type="text" th:value=${apartment.floor} name="floor"></td>
+                </tr>
+                <tr>
+                    <td class="text" align="right">Description</td>
+                    <td><textarea type="scrolling" th:value=${apartment.description} name="description"></textarea></td>
+                </tr>
+            </table>
+            <button type="submit" class="button-active">Edit</button>
+        </form>
+        <form sec:authorize="hasAnyAuthority('ADMIN')" th:action="${apartment.id}"
+              method="post">
+            <table>
+                <input type="hidden" th:value="${apartment.isActive}" name="isActive">
+                <tr>
+                    <td class="text" align="right" wight="20%">Address</td>
+                    <td><input type="text" th:value=${apartment.address} name="address"></td>
+                </tr>
+                <tr>
+                    <td class="text" align="right">Square</td>
+                    <td><input type="text" th:value=${apartment.square} name="square"></td>
+                </tr>
+
+                <tr>
+                    <td class="text" align="right">Number of rooms</td>
+                    <td><input type="text" th:value=${apartment.numberOfRooms} name="numberOfRooms"></td>
+                </tr>
+                <tr>
+                    <td class="text" align="right">Price</td>
+                    <td><input type="text" th:value=${apartment.price} name="price"></td>
+                </tr>
+                <tr>
+                    <td class="text" align="right">Floor</td>
+                    <td><input type="text" th:value=${apartment.floor} name="floor"></td>
+                </tr>
+                <tr>
+                    <td class="text" align="right">Description</td>
+                    <td><textarea type="scrolling" th:value=${apartment.description} name="description"></textarea></td>
+                </tr>
+            </table>
+            <button type="submit" class="button-active">Edit</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/fontawesome/icons.css" rel="stylesheet">
+</head>
+<body>
+<nav th:replace="~{plugins/menu::menu}"></nav>
+<div class="main">
+    <div class="left-side-area">
+        <h1 class="header">User</h1>
+        <h2 class="subheader">Information<br> about the user</h2>
+        <a th:href="'/admins/update/user/' + ${user.id}"
+           class="button-active">Edit user</a>
+        <a th:href="'/admins/delete/user/' + ${user.id}"
+           class="button-active-delete">Delete user</a>
+    </div>
+    <div class="main-area">
+        <table>
+            <tr>
+                <td class="text-left-column">Email</td>
+                <td><input type="text" th:value=${user.email} disabled></td>
+            </tr>
+            <tr>
+                <td class="text-left-column">First name</td>
+                <td><input type="text" th:value=${user.firstName} disabled></td>
+            </tr>
+            <tr>
+                <td class="text-left-column">Last name</td>
+                <td><input type="text" th:value=${user.lastName} disabled></td>
+            </tr>
+            <tr>
+                <td class="text-left-column">Phone</td>
+                <td><input type="text" th:value=${user.phone} disabled></td>
+            </tr>
+            <tr>
+                <td class="text-left-column">Role</td>
+                <td><input type="text" th:value=${user.role} disabled></td>
+            </tr>
+            <tr>
+                <td class="text-left-column">Is active</td>
+                <td><input type="text" th:value=${user.isActive} disabled></td>
+            </tr>
+        </table>
+        <h2 th:if="${apartments.empty}" class="subheader">No notices of user</h2>
+        <h2 th:unless="${apartments.empty}" class="subheader">Notices of user</h2>
+        <table th:unless="${apartments.empty}" class="table">
+            <thead>
+            <tr class="table-header">
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>Square</th>
+                <th>Rooms</th>
+                <th>Floor</th>
+                <th>Price</th>
+                <th>Address</th>
+            </tr>
+            </thead>
+            <div th:each="el: ${apartments}">
+                <tr class="table-data">
+                    <td>
+                        <a th:href="'/apartments/' + ${el.id}">
+                            <i class="fa-solid fa-eye" title="View"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a th:href="'/admins/update/apartment/' + ${el.id}">
+                            <i class="fa-solid fa-file-pen" title="Edit"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a th:href="'/admins/delete/apartment/' + ${el.id}">
+                            <i class="fa-solid fa-trash-can" title="Delete"></i>
+                        </a>
+                    </td>
+                    <td><p th:text="${el.square}"></p></td>
+                    <td><p th:text="${el.numberOfRooms}"></p></td>
+                    <td><p th:text="${el.floor}"></p></td>
+                    <td><p th:text="${el.price}"></p></td>
+                    <td><p th:text="${el.address}"></p></td>
+                </tr>
+
+            </div>
+        </table>
+    </div>
+</div>
+</body>
+</html>

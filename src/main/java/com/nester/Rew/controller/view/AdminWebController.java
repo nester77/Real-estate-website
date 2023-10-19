@@ -3,15 +3,14 @@ package com.nester.Rew.controller.view;
 import com.nester.Rew.service.ApartmentService;
 import com.nester.Rew.service.UserService;
 import com.nester.Rew.service.dto.apartment.ApartmentDto;
+import com.nester.Rew.service.dto.apartment.ApartmentDtoForUpdate;
 import com.nester.Rew.service.dto.user.UserDto;
 import com.nester.Rew.service.dto.user.UserDtoForUpdate;
-import com.nester.Rew.service.impl.UserAppDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,57 +25,78 @@ import java.util.List;
 @RequestMapping("/admins")
 @RequiredArgsConstructor
 public class AdminWebController {
-    public static final int SIZE_PAGE = 10;
+    public static final int SIZE_PAGE = 5;
     public static final String SORT_PAGE = "id";
     private final UserService userService;
     private final ApartmentService apartmentService;
 
-    @GetMapping
-    public String getAll(Model model, @PageableDefault(size = SIZE_PAGE) @SortDefault(SORT_PAGE) Pageable pageable) {
+    @GetMapping("/users")
+    public String getAllUsers(Model model, @PageableDefault(size = SIZE_PAGE) @SortDefault(SORT_PAGE) Pageable pageable) {
         Page<UserDto> users = userService.getAll(pageable);
         model.addAttribute("users", users);
-        return "users";
+        return "user/users";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/apartments")
+    public String getAllApartments(Model model, @PageableDefault(size = SIZE_PAGE) @SortDefault(SORT_PAGE) Pageable pageable) {
+        Page<ApartmentDto> apartments = apartmentService.getAll(pageable);
+        model.addAttribute("apartments", apartments);
+        return "apartment/apartments";
+    }
+
+    @GetMapping("/user/{id}")
     public String getById(@PathVariable Long id, Model model) {
         UserDto user = userService.getById(id);
         model.addAttribute("user", user);
         List<ApartmentDto> apartments = apartmentService.getAllByUser(user.getEmail());
         model.addAttribute("apartments", apartments);
-        return "user";
+        return "user/user";
     }
 
-    @GetMapping("/personal")
-    public String getPersonalPage(Model model) {
-        UserAppDetails userAppDetails = (UserAppDetails) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-        String email = userAppDetails.getUsername();
-        UserDto user = userService.getByEmail(email);
-        model.addAttribute("user", user);
-        List<ApartmentDto> apartments = apartmentService.getAllByUser(email);
-        model.addAttribute("apartments", apartments);
-        return "personal_page";
-    }
-
-    @GetMapping("/update/{id}")
+    @GetMapping("/update/user/{id}")
     public String updateForm(@PathVariable Long id, Model model) {
         UserDto toUpdate = userService.getById(id);
         model.addAttribute("user", toUpdate);
-        return "update_user";
+        return "user/update_user";
     }
 
-    @PostMapping("/update/{id}")
+    @PostMapping("/update/user/{id}")
     public String update(@PathVariable(value = "id") Long id,
                          @ModelAttribute("user") UserDtoForUpdate dto) {
         dto.setId(id);
         userService.update(dto);
-        return "redirect:/users";
+        return "redirect:/admins/user/" + id;
     }
 
-    @GetMapping("/delete/{id}")
+    @GetMapping("/delete/user/{id}")
     public String delete(@PathVariable(value = "id") Long id) {
         userService.delete(id);
-        return "redirect:/users";
+        return "redirect:/admins/users";
     }
+
+    @GetMapping("/update/apartment/{id}")
+    public String updateApartmentForm(@PathVariable Long id, Model model) {
+        ApartmentDto toUpdate = apartmentService.getById(id);
+        model.addAttribute("apartment", toUpdate);
+        return "apartment/update_apartment";
+    }
+
+    @PostMapping("/update/apartment/{id}")
+    public String updateApartment(@PathVariable(value = "id") Long id,
+                                  @ModelAttribute("apartment") ApartmentDtoForUpdate dto) {
+        dto.setId(id);
+        String email = apartmentService.getById(id).getOwner().getEmail();
+        UserDto owner = new UserDto();
+        owner.setEmail(email);
+        dto.setOwner(owner);
+        apartmentService.update(dto);
+        return "redirect:/apartments";
+    }
+
+    @GetMapping("/delete/apartment/{id}")
+    public String deleteApartment(@PathVariable(value = "id") Long id) {
+        apartmentService.delete(id);
+        return "redirect:/apartments";
+    }
+
 }

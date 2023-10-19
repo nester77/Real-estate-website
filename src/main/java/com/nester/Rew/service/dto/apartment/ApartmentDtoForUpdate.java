@@ -1,6 +1,6 @@
 package com.nester.Rew.service.dto.apartment;
 
-import com.nester.Rew.data.entity.User;
+import com.nester.Rew.service.dto.user.UserDto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
@@ -26,7 +26,7 @@ public class ApartmentDtoForUpdate {
     @NotEmpty(message = "Address should be empty")
     private String address;
 
-    private User owner;
+    private UserDto owner;
 
     private boolean isActive;
 }

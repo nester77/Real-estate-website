@@ -1,0 +1,213 @@
+body {
+    font-family: Sans-serif, sans-serif;
+    margin: 0;
+}
+
+.menu {
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+    background: #84D3DB;
+    margin: 0 0 5px 0;
+}
+
+.logo {
+    width: 50px;
+}
+
+.menu-left {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: end;
+
+}
+
+.menu-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.main {
+    width: 75%;
+    min-width: 750px;
+    display: flex;
+    flex-direction: row;
+    background: #EDFFE8;
+    margin: 0 20px 0 0;
+}
+
+.home-background {
+    margin: 5px;
+    width: 98%;
+    height: 100%;
+}
+
+.left-side-area {
+    width: 20%;
+    min-width: 250px;
+    max-width: 500px;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    float: left;
+    margin: 0 50px 0 0;
+    text-align: right;
+}
+
+.main-area {
+
+}
+
+.header {
+    color: black;
+    font: italic bold 40px Arial;
+    margin: 15px 0 15px 0;
+}
+
+.subheader {
+    color: black;
+    font: italic bold 25px Arial;
+    margin: 15px 0 15px 0;
+}
+
+li {
+    list-style-type: none;
+}
+
+.table {
+    border-collapse: collapse;
+    max-width: 1000px;
+    margin-right: 15px;
+    min-width: 500px;
+}
+
+.table tbody {
+    background: white;
+}
+
+td, th {
+    padding: 5px;
+}
+
+.pagination {
+    margin: 3px 5px 3px 5px;
+}
+
+.table-header {
+    background: #84D3DB;
+    border: grey 2px solid;
+    font: bold 15px Arial;
+}
+
+.table-data {
+    border: grey 2px solid;
+    font: 12px Arial;
+}
+
+.button {
+    color: black;
+    border-radius: 5px;
+}
+
+
+.button-active {
+    border: 1px solid #ccc;
+    background: #84D3DB;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: black;
+    border-radius: 5px;
+    font: 15px Arial;
+    margin: 20px 0 20px 0;
+}
+
+.button-active-delete {
+    border: 1px solid #ccc;
+    background: #DB9991;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: black;
+    border-radius: 5px;
+    font: 15px Arial;
+    margin: 20px 0 20px 0;
+}
+
+.button-readonly {
+    border-radius: 5px;
+    font: 15px Arial;
+    margin: 20px 0 20px 0;
+}
+
+input {
+    font: 15px Arial;
+    margin: 10px 0 10px 0;
+}
+
+input:focus {
+    color: #84D3DB;
+}
+
+input:disabled {
+}
+
+.text {
+    color: black;
+    font: italic 15px Arial;
+    margin: 0 15px 0 15px;
+}
+
+.description {
+font: italic 20px Arial;
+    margin: 0 15px 0 15px;
+    margin: 25px 25px 25px 25px;
+}
+
+.text-left-column {
+    font: italic 15px Arial;
+    text-align: right;
+    min-width: 200px;
+    margin: 0 10px 0 10px;
+}
+
+.subscript {
+    font-size: smaller;
+}
+
+#popup {
+    width: 200px;
+    font: 13px Arial;
+    padding: 15px;
+    border: grey 1px solid;
+    border-radius: 10px;
+    color: black;
+    display: none;
+}
+
+#popup:target {
+    display: block;
+}
+
+.scrolling {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background: #fff;
+}
+
+textarea {
+    height: 100px;
+    width: 250%;
+}
+
+.cut-comment {
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 5px;
+    position: relative;
+    max-width: 300px;
+}

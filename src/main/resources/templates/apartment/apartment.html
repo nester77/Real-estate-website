@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Apartment</title>
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/fontawesome/icons.css" rel="stylesheet">
+</head>
+<body>
+<nav th:replace="~{plugins/menu :: menu}"></nav>
+<div class="main">
+    <div class="left-side-area">
+        <h1 class="header" th:text="${apartment.numberOfRooms} + '-roomed apartment'"></h1>
+        <h1 class="header" th:text="${apartment.price} + '$'"></h1>
+        <h2 class="subheader" th:text="${apartment.getOwner.firstName}"></h2>
+        <h2 class="subheader" th:text="${apartment.getOwner.phone}"></h2>
+        <a sec:authorize="hasAnyAuthority('ADMIN')" th:href="'/admins/user/' + ${apartment.getOwner.id}"
+           class="button-active">View owner</a>
+    </div>
+    <div class="main-area">
+        <h2 class="description" th:text="${apartment.description}"></h2>
+        <table>
+            <tr>
+                <td class="text-left-column">Square</td>
+                <td><input type="text" th:value="${apartment.square} + ' m2'" disabled></td>
+            </tr>
+            <tr>
+                <td class="text-left-column">Floor</td>
+                <td><input type="text" th:value=${apartment.floor} disabled></td>
+            </tr>
+            <tr>
+                <td class="text-left-column">Address</td>
+                <td><input type="text" th:value=${apartment.address} disabled></td>
+            </tr>
+            <tr sec:authorize="hasAnyAuthority('ADMIN')">
+                <td class="text-left-column">Is active</td>
+                <td><input type="text" th:value=${apartment.isActive} disabled></td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+</body>
+</html>

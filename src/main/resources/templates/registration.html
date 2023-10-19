@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css" th:href="@{/css/main.css}">
+    <title>Registration</title>
+    <script defer src="/js/jquery-3.6.1.js"></script>
+    <script type="module" src="/js/password-confirmation.js"></script>
+</head>
+<body>
+<nav th:replace="~{plugins/menu::menu}"></nav>
+<div class="main">
+    <div class="left-side-area">
+        <h1 class="header">Create User</h1>
+        <h2 class="subheader">Complete your user profile</h2>
+    </div>
+    <div class="main-area">
+        <form th:method="POST" th:action="@{/users/create}" th:object="${user}">
+            <table>
+                <tr>
+                    <td class="text" wight="20%">Email</td>
+                    <td><input type="email" placeholder="Enter email" name="email" required></td>
+                </tr>
+                <tr>
+                    <td class="text">Password</td>
+                    <td><input id="input-password" type="password" placeholder="Enter password" name="password"
+                               required></td>
+                </tr>
+                <tr>
+                    <td class="text">Confirm password</td>
+                    <td><input id="input-confirm-password" type="password" placeholder="Confirm password"
+                               name="confirmPassword" required></td>
+                </tr>
+                <tr>
+                    <td class="text">First name</td>
+                    <td><input type="text" placeholder="Enter first name" name="firstName"></td>
+                </tr>
+                <tr>
+                    <td class="text">Last name</td>
+                    <td><input type="text" placeholder="Enter last name" name="lastName"></td>
+                </tr>
+                <tr>
+                    <td class="text">Phone</td>
+                    <td><input type="text" placeholder="Enter phone" name="phone"></td>
+                </tr>
+            </table>
+            <button type="submit" class="button-active">Sign up</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Apartments</title>
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/fontawesome/icons.css" rel="stylesheet">
+</head>
+<body>
+<nav th:replace="~{plugins/menu :: menu}"></nav>
+
+<div class="main">
+    <div class="left-side-area">
+        <h1 class="header">Apartments</h1>
+        <h1 class="subheader">List<br> of all apartments</h1>
+        <a sec:authorize="isAuthenticated()" href="/apartments/create" class="button-active">Create</a>
+    </div>
+    <div class="main-area">
+        <div th:insert="~{plugins/pagination::pagination}" th:with="firstVer=${apartments}, uri=@{/apartments}"></div>
+        <table class="table">
+            <thead>
+            <tr class="table-header">
+                <th></th>
+                <th sec:authorize="hasAnyAuthority('ADMIN')"></th>
+                <th sec:authorize="hasAnyAuthority('ADMIN')"></th>
+                <th>Square</th>
+                <th>Rooms</th>
+                <th>Floor</th>
+                <th>Price</th>
+                <th>Address</th>
+                <th sec:authorize="hasAnyAuthority('ADMIN')">Is active</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <div th:each="el: ${apartments}">
+                <tr class="table-data">
+                    <td>
+                        <a th:href="'/apartments/' + ${el.id}">
+                            <i class="fa-solid fa-eye" title="View"></i>
+                        </a>
+                    </td>
+                    <td sec:authorize="hasAnyAuthority('ADMIN')">
+                        <a th:href="'/admins/update/apartment/' + ${el.id}">
+                            <i class="fa-solid fa-file-pen" title="Edit"></i>
+                        </a>
+                    </td>
+                    <td sec:authorize="hasAnyAuthority('ADMIN')">
+                        <a th:href="'/admins/delete/apartment/' + ${el.id}">
+                            <i class="fa-solid fa-trash-can" title="Delete"></i>
+                        </a>
+                    </td>
+                    <td><p th:text="${el.square}"></p></td>
+                    <td><p th:text="${el.numberOfRooms}"></p></td>
+                    <td><p th:text="${el.floor}"></p></td>
+                    <td><p th:text="${el.price}"></p></td>
+                    <td><p th:text="${el.address}"></p></td>
+                    <td sec:authorize="hasAnyAuthority('ADMIN')"><p th:text="${el.isActive}"></p></td>
+                </tr>
+
+            </div>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

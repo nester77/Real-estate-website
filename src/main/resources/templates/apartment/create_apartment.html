@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Apartment</title>
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/fontawesome/icons.css" rel="stylesheet">
+</head>
+<body>
+<nav th:replace="~{plugins/menu :: menu}"></nav>
+<div class="main">
+    <div class="left-side-area">
+        <h1 class="header">Create Notice</h1>
+        <h2 class="subheader">Complete your notice</h2>
+    </div>
+    <div class="main-area">
+        <form action="/apartments/create" method="post">
+            <table>
+                <input type="hidden" name="user.email" th:value="${#authentication.name}">
+                <tr>
+                    <td class="text" align="right" wight="20%">Address</td>
+                    <td><input type="text" placeholder="Enter address" name="address"></td>
+                </tr>
+                <tr>
+                    <td class="text" align="right">Square</td>
+                    <td><input type="text" placeholder="Enter square" name="square"></td>
+                </tr>
+
+                <tr>
+                    <td class="text" align="right">Number of rooms</td>
+                    <td><input type="text" placeholder="Enter number of rooms" name="numberOfRooms"></td>
+                </tr>
+                <tr>
+                    <td class="text" align="right">Price</td>
+                    <td><input type="text" placeholder="Enter price" name="price"></td>
+                </tr>
+                <tr>
+                    <td class="text" align="right">Floor</td>
+                    <td><input type="text" placeholder="Enter floor" name="floor"></td>
+                </tr>
+                <tr>
+                    <td class="text" align="right">Description</td>
+                    <td><textarea type="scrolling" placeholder="Enter description" name="description"></textarea></td>
+                </tr>
+            </table>
+            <button type="submit" class="button-active">Create</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

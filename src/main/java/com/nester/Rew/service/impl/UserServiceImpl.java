@@ -73,6 +73,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User oldUser = userRepository.findById(dto.getId())
                 .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND_MSG));
         User newUser = userMapper.userDtoForUpdatingToUser(dto);
+        if (newUser.getRole() == null) {
+            newUser.setRole(oldUser.getRole());
+        }
+        newUser.setActive(oldUser.isActive());
+        if (newUser.getPassword().isEmpty()) {
+            newUser.setPassword(oldUser.getPassword());
+        } else {
+            newUser.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
         User updated = userRepository.save(newUser);
         return userMapper.userToUserDto(updated);
     }

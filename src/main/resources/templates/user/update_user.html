@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/fontawesome/icons.css" rel="stylesheet">
+</head>
+<body>
+<nav th:replace="~{plugins/menu::menu}"></nav>
+<div class="main">
+    <div class="left-side-area">
+        <h1 class="header">Edit User</h1>
+        <h2 class="subheader">Change information<br> about the user</h2>
+    </div>
+    <div class="main-area">
+        <form sec:authorize="hasAnyAuthority('USER')" th:action="'/users/update'" method="post">
+            <table>
+                <tr>
+                    <td class="text-left-column">Email</td>
+                    <td><input type="text" th:value=${user.email} name="email"></td>
+                </tr>
+                <tr>
+                    <td class="text-left-column">Password</td>
+                    <td><input type="text" name="password"></td>
+                </tr>
+                <tr>
+                    <td class="text-left-column">First name</td>
+                    <td><input type="text" th:value=${user.firstName} name="firstName"></td>
+                </tr>
+                <tr>
+                    <td class="text-left-column">Last name</td>
+                    <td><input type="text" th:value=${user.lastName} name="lastName"></td>
+                </tr>
+                <tr>
+                    <td class="text-left-column">Phone</td>
+                    <td><input type="text" th:value=${user.phone} name="phone"></td>
+                </tr>
+            </table>
+            <button type="submit" class="button-active">Edit</button>
+        </form>
+        <form sec:authorize="hasAnyAuthority('ADMIN')" th:action="'/admins/update/' + ${user.id}" method="post">
+            <table>
+                <tr>
+                    <td class="text-left-column">Email</td>
+                    <td><input type="text" th:value=${user.email} name="email"></td>
+                </tr>
+                <tr>
+                    <td class="text-left-column">Password</td>
+                    <td><input type="text" name="password"></td>
+                </tr>
+                <tr>
+                    <td class="text-left-column">First name</td>
+                    <td><input type="text" th:value=${user.firstName} name="firstName"></td>
+                </tr>
+                <tr>
+                    <td class="text-left-column">Last name</td>
+                    <td><input type="text" th:value=${user.lastName} name="lastName"></td>
+                </tr>
+                <tr>
+                    <td class="text-left-column">Phone</td>
+                    <td><input type="text" th:value=${user.phone} name="phone"></td>
+                </tr>
+                <tr>
+                    <td class="text-left-column">Role</td>
+                    <td><input type="text" th:value=${user.role} name="role"></td>
+                </tr>
+            </table>
+            <button type="submit" class="button-active">Edit</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

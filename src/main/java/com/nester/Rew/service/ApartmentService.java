@@ -20,4 +20,6 @@ public interface ApartmentService {
     void delete(Long id);
 
     List<ApartmentDto> getAllByUser(String email);
+
+    Page<ApartmentDto> getAllActive(Pageable pageable);
 }
